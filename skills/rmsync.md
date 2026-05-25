@@ -63,6 +63,7 @@ SCRIPT_PATH  = .claude/skills/scripts/rm-convert.sh
 DOC_ID       = f4e87156-14ee-4872-bc6f-feb4e3a77cad   (your Quick Sheets UUID)
 RM_IP_WIFI   = 192.168.1.x                 (find in reMarkable Settings → Help)
 RM_IP_USB    = 10.11.99.1                  (constant when connected via USB)
+RM_MAC       = xx:xx:xx:xx:xx:xx           (find in reMarkable Settings → Help, used for auto-discovery)
 RMC_PATH     = rmc                         (or full path, e.g. ~/bin/rmc)
 ```
 
@@ -78,14 +79,23 @@ Read `SYNC_LOG`. Extract:
 
 ### Step 2 — Connect to reMarkable
 
-Run in a single bash call:
+Try known IPs first, then fall back to MAC-based discovery:
+
 ```bash
-ssh -o ConnectTimeout=5 -o BatchMode=yes root@<RM_IP_WIFI> "echo ok" 2>/dev/null \
-  || ssh -o ConnectTimeout=5 -o BatchMode=yes root@<RM_IP_USB> "echo ok" 2>/dev/null \
-  || echo "UNREACHABLE"
+# 1. Try stored WiFi IP
+ssh -o ConnectTimeout=5 -o BatchMode=yes root@<RM_IP_WIFI> "echo ok" 2>/dev/null && echo "OK:<RM_IP_WIFI>"
+
+# 2. Try USB
+ssh -o ConnectTimeout=5 -o BatchMode=yes root@<RM_IP_USB> "echo ok" 2>/dev/null && echo "OK:<RM_IP_USB>"
+
+# 3. Auto-discover via MAC address (when IP has changed)
+for i in $(seq 1 254); do ping -c1 -W1 <subnet>.$i > /dev/null 2>&1 & done; wait
+arp -a | grep -i "<RM_MAC>"
 ```
 
-- If `UNREACHABLE`: tell the user and stop.
+- Use the first IP that responds.
+- If MAC discovery finds a new IP: update `RM_IP_WIFI` in the config and tell the user.
+- If nothing responds: tell the user the reMarkable is not reachable and stop.
 - Note which IP worked — use it for all subsequent commands.
 
 ### Step 3 — Run conversion script

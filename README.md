@@ -192,8 +192,9 @@ sed -i '' \
 
 ### IP keeps changing
 
-Set a DHCP reservation in your router for your reMarkable's MAC address.
-Find it at: **Settings → Help → Copyrights and licenses**.
+The skill handles this automatically if you add your reMarkable's MAC address to the config (`RM_MAC`). When the stored IP doesn't respond, it scans the local network and reconnects — useful when switching between home and office WiFi.
+
+Find your MAC at: **Settings → Help → Copyrights and licenses**.
 
 ### Permission denied over WiFi
 
