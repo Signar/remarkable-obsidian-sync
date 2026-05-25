@@ -24,6 +24,8 @@ Install the skill from https://github.com/Signar/remarkable-obsidian-sync
 
 Claude will read the instructions, copy the files, and walk you through any first-time setup — including SSH if needed.
 
+> **Tip:** If you want to sync over WiFi (no cable needed after setup), have your USB cable nearby for the first run. Claude will guide you through a one-time step to enable it.
+
 ---
 
 ## What happens
