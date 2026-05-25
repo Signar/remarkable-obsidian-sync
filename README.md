@@ -192,9 +192,9 @@ sed -i '' \
 
 ### IP keeps changing
 
-The skill handles this automatically if you add your reMarkable's MAC address to the config (`RM_MAC`). When the stored IP doesn't respond, it scans the local network and reconnects — useful when switching between home and office WiFi.
+Set a static IP in your router (DHCP reservation) or leave it — the skill will reconnect after a short delay.
 
-Find your MAC at: **Settings → Help → Copyrights and licenses**.
+**Advanced:** Add your reMarkable's MAC address to the config as `RM_MAC`. The skill will then scan the local network and find the device automatically, even after switching between home and office WiFi. Find your MAC at: **Settings → Help → Copyrights and licenses**.
 
 ### Permission denied over WiFi
 

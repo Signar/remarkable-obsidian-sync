@@ -63,7 +63,7 @@ SCRIPT_PATH  = .claude/skills/scripts/rm-convert.sh
 DOC_ID       = f4e87156-14ee-4872-bc6f-feb4e3a77cad   (your Quick Sheets UUID)
 RM_IP_WIFI   = 192.168.1.x                 (find in reMarkable Settings → Help)
 RM_IP_USB    = 10.11.99.1                  (constant when connected via USB)
-RM_MAC       = xx:xx:xx:xx:xx:xx           (find in reMarkable Settings → Help, used for auto-discovery)
+RM_MAC       = xx:xx:xx:xx:xx:xx           (optional — enables auto-discovery when IP changes)
 RMC_PATH     = rmc                         (or full path, e.g. ~/bin/rmc)
 ```
 
