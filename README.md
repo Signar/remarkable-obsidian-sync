@@ -73,7 +73,9 @@ cd remarkable-obsidian-sync
 cp skills/rmsync.md    /path/to/vault/.claude/skills/rmsync.md
 cp -r skills/scripts   /path/to/vault/.claude/skills/scripts
 
-# 3. Edit the config section in rmsync.md (top of file)
+# 3. Copy the sync log template to your vault
+cp _sync_log_template.md /path/to/vault/_rmsync_log.md
+# Edit VAULT_PATH and RM_IP_WIFI — everything else is auto-discovered on first run
 
 # 4. Add permissions (see below)
 ```
@@ -112,45 +114,18 @@ Add to your vault's `.claude/settings.json`:
 
 ---
 
-## SSH setup
-
-**First time only.** Connect reMarkable via USB cable, then:
-
-```bash
-# 1. Find your root password
-#    reMarkable: Settings → Help → Copyrights and licenses → scroll to bottom
-
-# 2. Copy your SSH key
-ssh-copy-id -i ~/.ssh/id_ed25519.pub -o PubkeyAuthentication=no root@10.11.99.1
-
-# 3. Test it
-ssh root@10.11.99.1 "echo connected"
-```
-
-After this, SSH works without a password over both USB and WiFi.
-
----
-
 ## Configuration
 
-Edit the `⚙️ USER CONFIGURATION` block at the top of `skills/sync.md`:
+All config lives in `_rmsync_log.md` in your vault — not in the skill file. This means you can update the skill from GitHub without losing your settings.
+
+On first run, Claude will auto-discover `DOC_ID` and guide you through SSH setup. You only need to set two values manually:
 
 | Variable | What it is | Example |
 |----------|-----------|---------|
 | `VAULT_PATH` | Absolute path to your vault | `~/Documents/MyVault` |
-| `INBOX_PATH` | Where to put imported notes | `00_Inbox/reMarkable` |
-| `SYNC_LOG` | Sync state file | `_sync_log.md` |
-| `DOC_ID` | Your notebook's UUID | `f4e87156-...` |
 | `RM_IP_WIFI` | reMarkable's WiFi IP | `192.168.1.42` |
-| `RMC_PATH` | Path to `rmc` | `rmc` or `~/bin/rmc` |
 
-### Finding your notebook's UUID
-
-```bash
-ssh root@10.11.99.1 \
-  "ls /home/root/.local/share/remarkable/xochitl/*.content" \
-  | xargs -I{} basename {} .content
-```
+Everything else (`DOC_ID`, `rmc` patch, inbox folder) is handled automatically on first run.
 
 Match with notebook names in your reMarkable app.
 
