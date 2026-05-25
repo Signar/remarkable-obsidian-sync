@@ -7,6 +7,38 @@ description: Sync reMarkable Quick Sheets notebook to Obsidian via Claude Code
 
 > **Scope:** This skill syncs the built-in **Quick Sheets** notebook only — the one accessible with a swipe from any reMarkable screen. Not for arbitrary notebooks.
 
+## First time setup
+
+Before running the sync, check if SSH works:
+```bash
+ssh -o ConnectTimeout=5 -o BatchMode=yes root@10.11.99.1 "echo ok" 2>/dev/null \
+  || echo "UNREACHABLE"
+```
+
+If `UNREACHABLE`, guide the user through setup step by step:
+
+**Step 1 — Find the root password**
+Tell the user: *"On your reMarkable, go to Settings → Help → Copyrights and licenses and scroll to the bottom. You'll see the root password there."*
+
+**Step 2 — Connect via USB**
+Tell the user: *"Connect your reMarkable to your Mac with the USB cable. The IP over USB is always `10.11.99.1`."*
+
+**Step 3 — Copy SSH key**
+Ask the user to run in their terminal:
+```
+! ssh-copy-id -i ~/.ssh/id_ed25519.pub -o PubkeyAuthentication=no root@10.11.99.1
+```
+Tell them to enter the password from step 1 when prompted.
+
+**Step 4 — Test**
+```bash
+ssh -o ConnectTimeout=5 root@10.11.99.1 "echo connected"
+```
+If successful: *"SSH is set up. You can unplug the cable — the connection also works over WiFi."*
+Then continue with the regular sync process.
+
+---
+
 ## Triggers
 
 Run this skill when the user types any of:

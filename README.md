@@ -14,6 +14,18 @@ That's it.
 
 ---
 
+## Quick install
+
+Paste this into Claude Code and ask it to install the skill:
+
+```
+Install the skill from https://github.com/Signar/remarkable-obsidian-sync
+```
+
+Claude will read the instructions, copy the files, and walk you through any first-time setup — including SSH if needed.
+
+---
+
 ## What happens
 
 1. Claude connects to your reMarkable over WiFi (USB fallback)
